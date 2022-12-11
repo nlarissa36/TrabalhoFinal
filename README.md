@@ -6,7 +6,7 @@
   </p>
 
 # Trabalho Final Laboratório de Programação 👩‍💻
-Processamento de imagens com o intuito de gerar uma matriz SCM para descrever as características de uma imagem de entrada.
+Processamento de imagens com o objetivo de gerar uma matriz SCM para descrever as características de uma imagem de entrada.
 
 ### Colaboradoras:
 - Mikaelle Costa
