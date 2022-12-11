@@ -159,7 +159,7 @@ switch(pio->tipo){
 
 fclose(fp); 
   ```
-A alocação dinâmica do ponteiro dos dados é feita de acordo com a dimensão da imagem. Para que o programa leia a imagem, ele realiza uma verificação de tipo e caso seja do tipo P2 (dados em texto): percorre-se a imagem inteira e armazena pixel por pixel no ponteiro na estrutura; caso seja do tipo P5 (dados em binário): a leitura é feita em forma de blocos, logo, os pixels serão armazenados todos de uma vez.
+A alocação dinâmica do ponteiro dos dados é feita de acordo com a dimensão da imagem. Para que o programa leia a imagem, ele realiza uma verificação de tipo e caso seja do tipo P2 (dados em texto), percorre-se a imagem inteira e armazena pixel por pixel no ponteiro na estrutura; caso seja do tipo P5 (dados em binário), a leitura é feita em forma de blocos, logo, os pixels serão armazenados todos de uma vez.
 
 ### Quantização
 Arquivo.c responsável por quantizar cada imagem.
