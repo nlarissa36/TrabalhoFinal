@@ -10,7 +10,7 @@ Processamento de imagens com o intuito de gerar uma matriz SCM para descrever as
 
 ### Colaboradoras:
 - Mikaelle Costa
-- Ana Flavia
+- Ana Torres
 - Isabelly Pinheiro
 - Larissa Vieira
 
