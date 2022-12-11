@@ -191,7 +191,7 @@ while (inter <= img->mv+1){
 A quantização será feita enquanto os valores do intervalo forem menor ou igual ao ValorMaximo. 'start' na primeira execução será igual a 0 e mudará de acordo com o incremento do 'inter'. O loop for irá percorrer a dimensão da imagem comparando os dados para cada intervalo, e caso se encaixem, transformando-os no respectivo no n° do intervalo. No final avançamos para o próximo intervalo e incrementamos 'inter' com 'quant' para que assim gere um novo 'start' e 'end' com base na divisão feita no 'quant'.
 
 ### SCM
-Arquivo.c que cria a matriz comparando as duas imagens, a filtrada e a original
+Arquivo.c que cria a matriz de ocorrências comparando as duas imagens processadas por par (filtrada e a original).
 ```c
 void generateMatrix(int *matrix, struct pgm *img1, struct pgm *img2, int level){
   int elem=0,c=0,r=0;
@@ -212,7 +212,40 @@ void generateMatrix(int *matrix, struct pgm *img1, struct pgm *img2, int level){
   puts("Matriz computada!\n");
 }
 ```
-Essa função tipo void compara por meio de um loop os dados das duas imagens e cria uma matriz que soma +1 em toda combinação. 
+Essa função recebe como paramêtros o ponteiro que será salva a matriz SCM, as duas imagens e o nível de quantização das mesmas. Percorre a imagem por meio de um loop baseado na sua dimensão, compara os dados das duas imagens e caso sejam iguais, soma +1 na posição respectiva da matriz para sinalizar sua ocorrência. Ao finalizar a comparação, verifica-se o número da coluna e caso seja a última, incrementa-se o número da linha; caso não, incrementa-se o número da coluna e permanece na mesma linha. Esse processo será realizado enquanto o elemento da matriz SCM for menor que dimensão.
 
+```c
+void SCM(struct pgm *img1, struct pgm *img2, char *filename, int level){
+  int *matrix=NULL;
+  
+  if(!(matrix = calloc(level*level,sizeof(int)))){
+    puts("Memória Insuficiente");
+    exit(3);
+  }
 
+  generateMatrix(matrix, img1, img2, level);
 
+  FILE *fp;
+
+  char archiveName[20];
+  sprintf(archiveName, "SCM_%d.txt", level);
+
+  fp = fopen(archiveName,"a+");
+
+  if(fp==NULL){
+    puts("Erro ao abrir o arquivo");
+    exit(1);
+  }
+
+  for(int i=0; i<level*level; i++){
+    fprintf(fp, "%d, ", *(matrix+i));
+  }
+  
+  fprintf(fp,"%c", *filename);
+  fputc('\n', fp);
+
+  fclose(fp);
+  
+}
+```
+Essa função recebe como paramêtros as duas imagens, o nome delas e o nível da quantização realizada. A alocação do ponteiro da matriz SCM é feita pelo calloc para que todos os elementos comecem em 0 e sejam preenchidos pela função de gerar matriz. Um arquivo .txt é criado com a identificação de qual nível as imagens foram quantizadas e a partir disso, insere as ocorrências armazenadas pela matriz em forma de vetor. No final de cada vetor, a identificação baseada em caracteristicas de cada imagem é adicionada (sendo 0 ou 1).
