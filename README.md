@@ -87,6 +87,79 @@ printf("Tempo Total: %lf\n",time_total);
 Para calcular o tempo total e o tempo médio, o programa incrementa o tempo obtido por cada par e salva em "time_total". Após todas as imagens serem processadas, o tempo médio por imagem é exibido e o tempo total também.
 
 ### LerPGM
+Arquivo.c que realiza a leitura da imagem, transformando em dados cada pixel da mesma.
+
+```c
+#define TAM 200
+
+void readPGMImage(struct pgm *pio, char *foldername, char *filename){
+
+	FILE *fp;
+	char ch;
+  char fileAddress[TAM];
+
+  sprintf(fileAddress, "%s/%s", foldername, filename);
+
+  printf("%s\n", filename);
+  
+  if (!(fp = fopen(fileAddress,"r"))){
+		perror("Erro.");
+		exit(1);
+	}
+```
+Define variáveis e constantes a serem utilizadas, contendo o tamanho do nome para o caminho do arquivo e as variáveis a serem usadas, bem como abre o arquivo.
+
+```c
+if ( (ch = getc(fp))!='P'){
+	puts("A imagem fornecida não está no formato pgm");
+	exit(2);
+}
+  
+pio->tipo = getc(fp)-48;
+	
+fseek(fp,1, SEEK_CUR);
+
+while((ch=getc(fp))=='#'){
+	while( (ch=getc(fp))!='\n');
+}
+  
+fseek(fp,-1, SEEK_CUR);
+
+fscanf(fp, "%d %d",&pio->c,&pio->r);
+if (ferror(fp)){ 
+	perror(NULL);
+	exit(3);
+}	
+fscanf(fp, "%d",&pio->mv);
+
+printf("TIPO: %d\nDIMENSÃO: %d %d\nMV: %d\n",pio->tipo,pio->c,pio->r, pio->mv);
+  
+fseek(fp,1, SEEK_CUR)
+```
+Essa parte checa o formato se está em PGM, em P5 ou P2, e ignora os eventuais comentários entre o tipo e a dimensão. Ele reserva na estrutura o tipo, a dimensão e o valor máximo e imprime esses valores para o usuário. No final o ponteiro segue em 1 para poder fazer a leitura da parte certa.
+
+```c
+pio->pData = (unsigned char*) malloc(pio->r * pio->c * sizeof(unsigned char));
+
+
+switch(pio->tipo){
+	case 2:
+		puts("Lendo imagem PGM (dados em texto)");
+		for (int k=0; k < (pio->r * pio->c); k++){
+			fscanf(fp, "%hhu", pio->pData+k);
+		}
+	break;	
+	case 5:
+		puts("Lendo imagem PGM (dados em binário)");
+		fread(pio->pData,sizeof(unsigned char),pio->r * pio->c, fp);
+	break;
+	default:
+		puts("Não está implementado");
+}
+
+fclose(fp); 
+  ```
+A alocação dinâmica do ponteiro dos dados é feita de acordo com a dimensão da imagem. Para que o programa leia a imagem, ele realiza uma verificação de tipo. Caso seja do tipo P2 (dados em texto): percorre-se a imagem inteira e armazena pixel por pixel no ponteiro na estrutura. Caso seja do tipo P5 (dados em binário): a leitura é feita em forma de blocos, logo, os pixels serão armazenados todos de uma vez.
 
 ### Quantização
 Arquivo.c responsável por quantizar cada imagem.
@@ -118,5 +191,28 @@ while (inter <= img->mv+1){
 A quantização será feita enquanto os valores do intervalo forem menor ou igual ao ValorMaximo. 'start' na primeira execução será igual a 0 e mudará de acordo com o incremento do 'inter'. O loop for irá percorrer a dimensão da imagem comparando os dados para cada intervalo, e caso se encaixem, transformando-os no respectivo no n° do intervalo. No final avançamos para o próximo intervalo e incrementamos 'inter' com 'quant' para que assim gere um novo 'start' e 'end' com base na divisão feita no 'quant'.
 
 ### SCM
+Arquivo.c que cria a matriz comparando as duas imagens, a filtrada e a original
+```c
+void generateMatrix(int *matrix, struct pgm *img1, struct pgm *img2, int level){
+  int elem=0,c=0,r=0;
+
+  do{
+    for(int i=0; i<(img1->c*img1->r); i++){
+      if(*(img1->pData+i)==c && *(img2->pData+i)==r){
+        *(matrix+elem)+=1;
+      }
+    }
+    if(c==(level-1)){
+      c=0;
+      r++;
+    } else c++;
+    elem++;
+  } while(elem<level*level);
+
+  puts("Matriz computada!\n");
+}
+```
+Essa função tipo void compara por meio de um loop os dados das duas imagens e cria uma matriz que soma +1 em toda combinação. 
+
 
 
