@@ -85,12 +85,38 @@ printf("\nTempo médio: %lf\n",time_total/QTDIMG);
 printf("Tempo Total: %lf\n",time_total);
   }
 ```
-Para calcular o tempo total e o tempo médio, o programa incrementa o tempo obtido por cada par e salva em "time_total". Após todas as imagens serem processadas, o tempo médio por par é exibido e o tempo total também.
-
+Para calcular o tempo total e o tempo médio, o programa incrementa o tempo obtido por cada par e salva em "time_total". Após todas as imagens serem processadas, o tempo médio por imagem é exibido e o tempo total também.
 
 ### LerPGM
 
 ### Quantização
+Arquivo.c responsável por quantizar cada imagem.
+
+```c
+void quantize(struct pgm *img, int level){
+  
+  int quant = (img->mv+1) / level; 
+  int start, end, count=0; // começa em 0 e termina em level-1
+  int inter = quant;
+ 
+```
+A função recebe um ponteiro do tipo da estrutura e o nível de quantização. A variavel 'quant' se refere a quantidade de valores por intervalo que compõe cada nivel, 'start' e 'end' são para sinalizar o começo e o fim de cada intervalo, e count para avançar o n° do intervalo até chegar em count=level-1. 'inter' começará igual a 'quant' para definir o 1° nivel.
+
+```c
+while (inter <= img->mv+1){
+  start = inter - quant;
+  end = inter-1; 
+  
+  for (int k=0; k < (img->r * img->c); k++){
+    if ((*(img->pData+k) >= start) && (*(img->pData+k) <= end)){
+    *(img->pData+k) = count;
+	 }
+ } 
+   count++;
+   inter += quant;
+  }
+```
+A quantização será feita enquanto os valores do intervalo forem menor ou igual ao ValorMaximo. 'start' na primeira execução será igual a 0 e mudará de acordo com o incremento do 'inter'. O loop for irá percorrer a dimensão da imagem comparando os dados para cada intervalo, e caso se encaixem, transformando-os no respectivo no n° do intervalo. No final avançamos para o próximo intervalo e incrementamos 'inter' com 'quant' para que assim gere um novo 'start' e 'end' com base na divisão feita no 'quant'.
 
 ### SCM
 
