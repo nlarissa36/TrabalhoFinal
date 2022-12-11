@@ -74,7 +74,7 @@ int main(){
     closedir(d);
     
     // Calcular tempo médio por imagem.
-    printf("\nTempo médio: %lf\n",time_total/QTDIMG);
+    printf("\nTempo médio: %lf\n",time_total/(QTDIMG/2));
     printf("Tempo Total: %lf\n",time_total);
   }
 
