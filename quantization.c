@@ -18,7 +18,7 @@ Compilador: gcc Versão: version 6.3.0 (MinGW.org GCC-6.3.0-1)
 void quantize(struct pgm *img, int level){
   
   int quant = (img->mv+1) / level; 
-  int start, end, count=0; // começa em 0 e termina em level
+  int start, end, count=0; // começa em 0 e termina em level-1
   int inter = quant;
   
    while (inter <= img->mv+1){
