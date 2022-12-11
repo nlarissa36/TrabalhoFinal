@@ -73,7 +73,6 @@ end = clock();
 - 3 - Quantizar a imagem de acordo com o nível inserido pelo menu.
 - 4 - Computar a matriz SCM com base nas 2 imagens quantizadas.
 - 5 - Interromper a medição do tempo ao finalizar as etapas.
-
 ```c
 time_per_img = (double)(end - begin) / CLOCKS_PER_SEC;
 time_total += time_per_img;
