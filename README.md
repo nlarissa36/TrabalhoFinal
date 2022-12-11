@@ -48,7 +48,7 @@ if (d){
         continue;
       }
 ```
-Com o diretório aberto, utilizamos nossa função MENU para solicitar o nível que iremos quantizar. A partir disso, poderemos percorrer todas as imagens. 
+Com o diretório aberto, utilizamos a função MENU para solicitar o nível que iremos quantizar. A partir disso, poderemos percorrer todas as imagens. 
 > problema de exibição do "." e do ".." resolvido!
 
 ```c
