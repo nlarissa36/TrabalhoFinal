@@ -31,8 +31,8 @@ void quantize(struct pgm *img, int level){
         *(img->pData+k) = count;
 	    }
     } 
-      count++;
-      inter += quant;
+    count++;
+    inter += quant;
   }
 
 }
