@@ -67,7 +67,6 @@ quantize(&img2,level);
 SCM(&img1, &img2, dir->d_name, level);
       
 end = clock();
-      
 ```
 - 1 - Iniciar a medição do tempo para cada par a ser processado (1 img original e 1 img filtrada).
 - 2 - Ler os pixels da imagem passando como parametro a variavel do tipo struct, a pasta e o respectivo nome.
