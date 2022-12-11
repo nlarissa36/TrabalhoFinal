@@ -5,7 +5,7 @@
   <a href="#scm">SCM</a>&nbsp;&nbsp;&nbsp;
   </p>
 
-# Trabalho Final Laboratório de Programação 👩‍💻
+# Trabalho Final - Laboratório de Programação 👩‍💻
 Processamento de imagens com o objetivo de gerar uma matriz SCM para descrever as características de uma imagem de entrada.
 
 ### Colaboradoras:
