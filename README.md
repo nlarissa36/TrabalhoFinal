@@ -94,25 +94,25 @@ Arquivo.c que realiza a leitura da imagem, transformando em dados cada pixel da 
 
 void readPGMImage(struct pgm *pio, char *foldername, char *filename){
 
-	FILE *fp;
-	char ch;
-  char fileAddress[TAM];
+   FILE *fp;
+   char ch;
+   char fileAddress[TAM];
 
   sprintf(fileAddress, "%s/%s", foldername, filename);
 
   printf("%s\n", filename);
   
-  if (!(fp = fopen(fileAddress,"r"))){
-		perror("Erro.");
-		exit(1);
+   if (!(fp = fopen(fileAddress,"r"))){
+     perror("Erro.");
+     exit(1);
 	}
 ```
 Define variáveis e constantes a serem utilizadas, contendo o tamanho do nome para o caminho do arquivo e as variáveis a serem usadas, bem como abre o arquivo.
 
 ```c
 if ( (ch = getc(fp))!='P'){
-	puts("A imagem fornecida não está no formato pgm");
-	exit(2);
+  puts("A imagem fornecida não está no formato pgm");
+  exit(2);
 }
   
 pio->tipo = getc(fp)-48;
@@ -120,15 +120,15 @@ pio->tipo = getc(fp)-48;
 fseek(fp,1, SEEK_CUR);
 
 while((ch=getc(fp))=='#'){
-	while( (ch=getc(fp))!='\n');
+  while( (ch=getc(fp))!='\n');
 }
   
 fseek(fp,-1, SEEK_CUR);
 
 fscanf(fp, "%d %d",&pio->c,&pio->r);
 if (ferror(fp)){ 
-	perror(NULL);
-	exit(3);
+  perror(NULL);
+  exit(3);
 }	
 fscanf(fp, "%d",&pio->mv);
 
@@ -144,17 +144,19 @@ pio->pData = (unsigned char*) malloc(pio->r * pio->c * sizeof(unsigned char));
 
 switch(pio->tipo){
 	case 2:
-		puts("Lendo imagem PGM (dados em texto)");
-		for (int k=0; k < (pio->r * pio->c); k++){
-			fscanf(fp, "%hhu", pio->pData+k);
+	   puts("Lendo imagem PGM (dados em texto)");
+	   for (int k=0; k < (pio->r * pio->c); k++){
+	      fscanf(fp, "%hhu", pio->pData+k);
 		}
-	break;	
+	   break;	
+	
 	case 5:
-		puts("Lendo imagem PGM (dados em binário)");
-		fread(pio->pData,sizeof(unsigned char),pio->r * pio->c, fp);
-	break;
+	   puts("Lendo imagem PGM (dados em binário)");
+	   fread(pio->pData,sizeof(unsigned char),pio->r * pio->c, fp);
+	   break;
+	
 	default:
-		puts("Não está implementado");
+	   puts("Não está implementado");
 }
 
 fclose(fp); 
