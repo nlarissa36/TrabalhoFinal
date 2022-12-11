@@ -34,7 +34,7 @@ int main(){
  struct dirent *dir;
  d = opendir(FOLDER);
 ```
-Nessa parte se localiza a declaração das variaveis e das constantes que utilizaremos nesse arquivo. Contendo a quantidade de imagens a serem processadas, a localização da pasta que as mesmas se encontram, variaveis para calcular o tempo, e por fim, a abertura do diretório que iremos trabalhar.
+Nessa parte se localiza a declaração das variáveis e das constantes que utilizaremos nesse arquivo. Contendo a quantidade de imagens a serem processadas, a localização da pasta que as mesmas se encontram, variáveis para calcular o tempo, e por fim, a abertura do diretório que iremos trabalhar.
 
 ```c
 if (d){
@@ -69,8 +69,8 @@ SCM(&img1, &img2, dir->d_name, level);
 end = clock();
 ```
 - 1 - Iniciar a medição do tempo para cada par a ser processado (1 img original e 1 img filtrada).
-- 2 - Ler os pixels da imagem passando como parametro a variavel do tipo struct, a pasta e o respectivo nome.
-- 3 - Quantizar a imagem de acordo com o nivel inserido pelo menu.
+- 2 - Ler os pixels da imagem passando como parâmetro a variável do tipo struct, a pasta e o respectivo nome.
+- 3 - Quantizar a imagem de acordo com o nível inserido pelo menu.
 - 4 - Computar a matriz SCM com base nas 2 imagens quantizadas.
 - 5 - Interromper a medição do tempo ao finalizar as etapas.
 
@@ -159,7 +159,7 @@ switch(pio->tipo){
 
 fclose(fp); 
   ```
-A alocação dinâmica do ponteiro dos dados é feita de acordo com a dimensão da imagem. Para que o programa leia a imagem, ele realiza uma verificação de tipo. Caso seja do tipo P2 (dados em texto): percorre-se a imagem inteira e armazena pixel por pixel no ponteiro na estrutura. Caso seja do tipo P5 (dados em binário): a leitura é feita em forma de blocos, logo, os pixels serão armazenados todos de uma vez.
+A alocação dinâmica do ponteiro dos dados é feita de acordo com a dimensão da imagem. Para que o programa leia a imagem, ele realiza uma verificação de tipo e caso seja do tipo P2 (dados em texto): percorre-se a imagem inteira e armazena pixel por pixel no ponteiro na estrutura; caso seja do tipo P5 (dados em binário): a leitura é feita em forma de blocos, logo, os pixels serão armazenados todos de uma vez.
 
 ### Quantização
 Arquivo.c responsável por quantizar cada imagem.
@@ -172,7 +172,7 @@ void quantize(struct pgm *img, int level){
   int inter = quant;
  
 ```
-A função recebe um ponteiro do tipo da estrutura e o nível de quantização. A variavel 'quant' se refere a quantidade de valores por intervalo que compõe cada nivel, 'start' e 'end' são para sinalizar o começo e o fim de cada intervalo, e count para avançar o n° do intervalo até chegar em count=level-1. 'inter' começará igual a 'quant' para definir o 1° nivel.
+A função recebe um ponteiro do tipo da estrutura e o nível de quantização. A variável 'quant' se refere a quantidade de valores por intervalo que compõe cada nível, 'start' e 'end' são para sinalizar o começo e o fim de cada intervalo, e count para avançar o n° do intervalo até chegar em count=level-1. 'inter' começará igual a 'quant' para definir o 1° nível.
 
 ```c
 while (inter <= img->mv+1){
@@ -248,4 +248,4 @@ void SCM(struct pgm *img1, struct pgm *img2, char *filename, int level){
   
 }
 ```
-Essa função recebe como paramêtros as duas imagens, o nome delas e o nível da quantização realizada. A alocação do ponteiro da matriz SCM é feita pelo calloc para que todos os elementos comecem em 0 e sejam preenchidos pela função de gerar matriz. Um arquivo .txt é criado com a identificação de qual nível as imagens foram quantizadas e a partir disso, insere as ocorrências armazenadas pela matriz em forma de vetor. No final de cada vetor, a identificação baseada em caracteristicas de cada imagem é adicionada (sendo 0 ou 1).
+Essa função recebe como paramêtros as duas imagens, o nome delas e o nível da quantização realizada. A alocação do ponteiro da matriz SCM é feita pelo calloc para que todos os elementos comecem em 0 e sejam preenchidos pela função de gerar matriz. Um arquivo .txt é criado com a identificação de qual nível as imagens foram quantizadas e a partir disso, insere as ocorrências armazenadas pela matriz em forma de vetor. No final de cada vetor, a identificação baseada em características de cada imagem é adicionada (sendo 0 ou 1).
