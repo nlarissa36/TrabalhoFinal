@@ -132,10 +132,18 @@ if (ferror(fp)){
 fscanf(fp, "%d",&pio->mv);
 
 printf("TIPO: %d\nDIMENSÃO: %d %d\nMV: %d\n",pio->tipo,pio->c,pio->r, pio->mv);
-  
-fseek(fp,1, SEEK_CUR)
 ```
 Essa parte checa o formato se está em PGM, em P5 ou P2, e ignora os eventuais comentários entre o tipo e a dimensão. Ele reserva na estrutura o tipo, a dimensão e o valor máximo e imprime esses valores para o usuário. No final o ponteiro segue em 1 para poder fazer a leitura da parte certa.
+
+```c
+#ifdef __linux__
+    fseek(fp,1, SEEK_CUR);
+  #elif _WIN32
+    fseek(fp,0, SEEK_CUR);
+  #endif
+```
+> problema de compilação com o fseek() em sistemas operacionais diferentes resolvido!
+
 
 ```c
 pio->pData = (unsigned char*) malloc(pio->r * pio->c * sizeof(unsigned char));
@@ -195,25 +203,17 @@ A quantização será feita enquanto os valores do intervalo forem menor ou igua
 Arquivo.c que cria a matriz de ocorrências comparando as duas imagens processadas por par (filtrada e a original).
 ```c
 void generateMatrix(int *matrix, struct pgm *img1, struct pgm *img2, int level){
-  int elem=0,c=0,r=0;
-
-  do{
-    for(int i=0; i<(img1->c*img1->r); i++){
-      if(*(img1->pData+i)==c && *(img2->pData+i)==r){
-        *(matrix+elem)+=1;
-      }
-    }
-    if(c==(level-1)){
-      c=0;
-      r++;
-    } else c++;
-    elem++;
-  } while(elem<level*level);
+  int elem=0;
+  
+  for(int i=0; i<(img1->c*img1->r); i++){
+    elem = (int)(*(img1->pData+i)*level + *(img2->pData+i));
+    *(matrix+elem)+=1;
+  }
 
   puts("Matriz computada!\n");
 }
 ```
-Essa função recebe como paramêtros o ponteiro que será salva a matriz SCM, as duas imagens e o nível de quantização das mesmas. Percorre a imagem por meio de um loop baseado na sua dimensão, compara os dados das duas imagens e caso sejam iguais, soma +1 na posição respectiva da matriz para sinalizar sua ocorrência. Ao finalizar a comparação, verifica-se o número da coluna e caso seja a última, incrementa-se o número da linha; caso não, incrementa-se o número da coluna e permanece na mesma linha. Esse processo será realizado enquanto o elemento da matriz SCM for menor que dimensão.
+Essa função recebe como paramêtros o ponteiro que será salva a matriz SCM, as duas imagens e o nível de quantização das mesmas. Percorre a imagem por meio de um loop baseado na sua dimensão, define o elemento da matriz SCM como o deslocamento do elemento da img1 x nivel (linha) + elemento da img2 (coluna) e a partir disso realiza o somatório das ocorrências.
 
 ```c
 void SCM(struct pgm *img1, struct pgm *img2, char *filename, int level){
