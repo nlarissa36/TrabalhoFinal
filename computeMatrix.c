@@ -42,7 +42,7 @@ void SCM(struct pgm *img1, struct pgm *img2, char *filename, int level){
     fprintf(fp, "%d, ", *(matrix+i));
   }
   
-  fprintf(fp,"%c", *filename);
+  fprintf(fp,"[%c]", *filename);
   fputc('\n', fp);
 
   fclose(fp);
@@ -50,20 +50,12 @@ void SCM(struct pgm *img1, struct pgm *img2, char *filename, int level){
 }
 
 void generateMatrix(int *matrix, struct pgm *img1, struct pgm *img2, int level){
-  int elem=0,c=0,r=0;
-
-  do{
-    for(int i=0; i<(img1->c*img1->r); i++){
-      if(*(img1->pData+i)==r && *(img2->pData+i)==c){
-        *(matrix+elem)+=1;
-      }
-    }
-    if(c==(level-1)){
-      c=0;
-      r++;
-    } else c++;
-    elem++;
-  } while(elem<level*level);
+  int elem=0;
+  
+  for(int i=0; i<(img1->c*img1->r); i++){
+    elem = (int)(*(img1->pData+i)*level + *(img2->pData+i));
+    *(matrix+elem)+=1;
+  }
 
   puts("Matriz computada!\n");
 }
