@@ -122,7 +122,7 @@ while((ch=getc(fp))=='#'){
   while( (ch=getc(fp))!='\n');
 }
   
-fseek(fp,-1, SEEK_CUR);
+fseek(fp,-2, SEEK_CUR);
 
 fscanf(fp, "%d %d",&pio->c,&pio->r);
 if (ferror(fp)){ 
