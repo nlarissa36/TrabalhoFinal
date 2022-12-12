@@ -142,7 +142,7 @@ Essa parte checa o formato se está em PGM, em P5 ou P2, e ignora os eventuais c
     fseek(fp,0, SEEK_CUR);
   #endif
 ```
-> problema de compilação com o fseek() em sistemas operacionais diferentes resolvido!
+> problema de deslocamento do fseek() em sistemas operacionais diferentes resolvido!
 
 
 ```c
