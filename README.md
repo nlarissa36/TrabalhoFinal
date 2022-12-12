@@ -242,7 +242,7 @@ void SCM(struct pgm *img1, struct pgm *img2, char *filename, int level){
     fprintf(fp, "%d, ", *(matrix+i));
   }
   
-  fprintf(fp,"%c", *filename);
+  fprintf(fp,"[%c]", *filename);
   fputc('\n', fp);
 
   fclose(fp);
