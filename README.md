@@ -79,7 +79,7 @@ time_total += time_per_img;
 }
 closedir(d);
    
-printf("\nTempo médio: %lf\n",time_total/QTDIMG);
+printf("\nTempo médio: %lf\n",time_total/(QTDIMG/2));
 printf("Tempo Total: %lf\n",time_total);
   }
 ```
