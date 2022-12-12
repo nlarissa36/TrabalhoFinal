@@ -54,7 +54,7 @@ void generateMatrix(int *matrix, struct pgm *img1, struct pgm *img2, int level){
 
   do{
     for(int i=0; i<(img1->c*img1->r); i++){
-      if(*(img1->pData+i)==c && *(img2->pData+i)==r){
+      if(*(img1->pData+i)==r && *(img2->pData+i)==c){
         *(matrix+elem)+=1;
       }
     }
