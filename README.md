@@ -133,7 +133,7 @@ fscanf(fp, "%d",&pio->mv);
 
 printf("TIPO: %d\nDIMENSÃO: %d %d\nMV: %d\n",pio->tipo,pio->c,pio->r, pio->mv);
 ```
-Essa parte checa o formato se está em PGM, em P5 ou P2, e ignora os eventuais comentários entre o tipo e a dimensão. Ele reserva na estrutura o tipo, a dimensão e o valor máximo e imprime esses valores para o usuário. No final o ponteiro segue em 1 para poder fazer a leitura da parte certa.
+Essa parte checa o formato se está em PGM, em P5 ou P2, e ignora os eventuais comentários entre o tipo e a dimensão. Ele reserva na estrutura o tipo, a dimensão e o valor máximo e imprime esses valores para o usuário.
 
 ```c
 #ifdef __linux__
