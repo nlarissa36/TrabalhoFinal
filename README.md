@@ -104,7 +104,7 @@ void readPGMImage(struct pgm *pio, char *foldername, char *filename){
    if (!(fp = fopen(fileAddress,"r"))){
      perror("Erro.");
      exit(1);
-	}
+   }
 ```
 Define variáveis e constantes a serem utilizadas, contendo o tamanho do nome para o caminho do arquivo e as variáveis a serem usadas, bem como abre o arquivo.
 
@@ -137,10 +137,10 @@ Essa parte checa o formato se está em PGM, em P5 ou P2, e ignora os eventuais c
 
 ```c
 #ifdef __linux__
-    fseek(fp,1, SEEK_CUR);
-  #elif _WIN32
-    fseek(fp,0, SEEK_CUR);
-  #endif
+  fseek(fp,1, SEEK_CUR);
+#elif _WIN32
+  fseek(fp,0, SEEK_CUR);
+#endif
 ```
 > problema de deslocamento do fseek() em sistemas operacionais diferentes resolvido!
 
@@ -191,11 +191,11 @@ while (inter <= img->mv+1){
   for (int k=0; k < (img->r * img->c); k++){
     if ((*(img->pData+k) >= start) && (*(img->pData+k) <= end)){
     *(img->pData+k) = count;
-	 }
- } 
+    }
+  } 
    count++;
    inter += quant;
-  }
+}
 ```
 A quantização será feita enquanto os valores do intervalo forem menor ou igual ao ValorMaximo. 'start' na primeira execução será igual a 0 e mudará de acordo com o incremento do 'inter'. O loop for irá percorrer a dimensão da imagem comparando os dados para cada intervalo, e caso se encaixem, transformando-os no respectivo no n° do intervalo. No final avançamos para o próximo intervalo e incrementamos 'inter' com 'quant' para que assim gere um novo 'start' e 'end' com base na divisão feita no 'quant'.
 
