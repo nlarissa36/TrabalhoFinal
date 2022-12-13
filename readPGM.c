@@ -49,7 +49,7 @@ void readPGMImage(struct pgm *pio, char *foldername, char *filename){
 		while( (ch=getc(fp))!='\n');
 	}
   
-	fseek(fp,-1, SEEK_CUR);
+	fseek(fp,-2, SEEK_CUR);
 
   // Inserir na estrutura a dimensao da imagem
 	fscanf(fp, "%d %d",&pio->c,&pio->r);
