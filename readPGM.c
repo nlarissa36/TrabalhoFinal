@@ -62,7 +62,11 @@ void readPGMImage(struct pgm *pio, char *foldername, char *filename){
   // Exibir as informações da imagem: tipo, dimensao e valor maximo.
   printf("TIPO: %d\nDIMENSÃO: %d %d\nMV: %d\n",pio->tipo,pio->c,pio->r, pio->mv);
   
-	fseek(fp,1, SEEK_CUR);
+	#ifdef __linux__
+    fseek(fp,1, SEEK_CUR);
+  #elif _WIN32
+    fseek(fp,0, SEEK_CUR);
+  #endif
 
   // Alocar o ponteiro que vai receber os pixels da imagem
 	pio->pData = (unsigned char*) malloc(pio->r * pio->c * sizeof(unsigned char));
