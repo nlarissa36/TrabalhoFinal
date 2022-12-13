@@ -37,6 +37,16 @@ int main(){
 Nessa parte se localiza a declaração das variáveis e das constantes que utilizaremos nesse arquivo. Contendo a quantidade de imagens a serem processadas, a localização da pasta que as mesmas se encontram, variáveis para calcular o tempo, e por fim, a abertura do diretório que iremos trabalhar.
 
 ```c
+ FILE *fp;
+ 
+ if (!(fp = fopen("matrixOrder.txt","a+"))){
+		perror("Erro.");
+		exit(1);
+	}
+```
+Tem a criação de um ponteiro para arquivo e a abertura de um arquivo txt que vai ser utilizado para armazenar a ordem em que as imagens foram lidas, especialmente importante se não for possível compilar em uma ordem de sua escolha, já que com esse arquivo é possível conferir se o que está na matriz equivale às imagens certa.
+
+```c
 if (d){
 
   int level = menu();
@@ -47,8 +57,12 @@ if (d){
   if (!strcmp(dir->d_name, ".") || !strcmp(dir->d_name,"..")){
         continue;
       }
+      
+   if(dir->d_name[18] == 'm'){
+        continue;
+      }
 ```
-Com o diretório aberto, utilizamos a função MENU para solicitar o nível que iremos quantizar. A partir disso, poderemos percorrer todas as imagens. 
+Com o diretório aberto, utilizamos a função MENU para solicitar o nível que iremos quantizar. A partir disso, poderemos percorrer todas as imagens. Enquanto se percorre todo o diretório vai ter uma condição para que somente as imagens originais sejam lidas.
 > problema de exibição do "." e do ".." resolvido!
 
 ```c
@@ -59,8 +73,15 @@ struct pgm img1, img2;
 readPGMImage(&img1,FOLDER,dir->d_name);
 quantize(&img1,level);
       
-dir = readdir(d); // Próximo arquivo
-      
+for(int i=0;i<strlen(dir->d_name);i++){
+   if(dir->d_name[i] == '.') {
+      dir->d_name[i]='\0';
+      fprintf(fp, "%s\n", dir->d_name);
+   }
+}
+
+strcat(dir->d_name,"_mean.pgm");
+
 readPGMImage(&img2,FOLDER,dir->d_name);
 quantize(&img2,level);
 
@@ -73,6 +94,9 @@ end = clock();
 - 3 - Quantizar a imagem de acordo com o nível inserido pelo menu.
 - 4 - Computar a matriz SCM com base nas 2 imagens quantizadas.
 - 5 - Interromper a medição do tempo ao finalizar as etapas.
+
+> para adicionar o restante do nome do arquivo filtrado é feito um loop que acha o . antes de pgm e substitui pelo \0 que indica o final da string. Em seguida, é utilizado uma função que junta o nome da original ao indicador necessário da imagem filtrada.
+
 ```c
 time_per_img = (double)(end - begin) / CLOCKS_PER_SEC;
 time_total += time_per_img;
