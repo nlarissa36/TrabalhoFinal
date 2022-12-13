@@ -72,8 +72,6 @@ int main(){
       }
 
       strcat(dir->d_name,"_mean.pgm");
-      //char filename[27];
-      //sprintf(filename, "%s_mean.pgm", dir->d_name);
       
       // Leitura da Imagem suavizada -PGM
       readPGMImage(&img2,FOLDER,dir->d_name);
