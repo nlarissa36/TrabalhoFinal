@@ -19,9 +19,8 @@ Compilador: gcc Versão: version 6.3.0 (MinGW.org GCC-6.3.0-1)
  
 int main(){
   
-  int k;
-	clock_t begin, end;
-	double time_per_img, time_total=0;
+  clock_t begin, end;
+  double time_per_img, time_total=0;
   
   DIR *d;
   struct dirent *dir;
