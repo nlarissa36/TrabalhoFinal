@@ -21,6 +21,7 @@ void quantize(struct pgm *img, int level){
   int start, end, count=0; // começa em 0 e termina em level-1
   int inter = quant;
   
+   puts("Quantizando Imagem PGM");
    while (inter <= img->mv+1){
      start = inter - quant;
      end = inter-1;
