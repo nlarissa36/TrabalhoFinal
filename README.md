@@ -56,11 +56,11 @@ if (d){
   
   if (!strcmp(dir->d_name, ".") || !strcmp(dir->d_name,"..")){
         continue;
-      }
+  }
       
-   if(dir->d_name[18] == 'm'){
+   if(strstr(dir->d_name,"mean")){
         continue;
-      }
+   }
 ```
 Com o diretório aberto, utilizamos a função MENU para solicitar o nível que iremos quantizar. A partir disso, poderemos percorrer todas as imagens. Enquanto se percorre todo o diretório vai ter uma condição para que somente as imagens originais sejam lidas.
 > problema de exibição do "." e do ".." resolvido!
