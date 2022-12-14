@@ -47,7 +47,7 @@ int main(){
         continue;
       }
 
-      if(dir->d_name[18] == 'm'){
+      if(strstr(dir->d_name,"mean")){
         continue;
       }
 
